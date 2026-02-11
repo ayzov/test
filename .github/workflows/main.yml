@@ -1,0 +1,18 @@
+name: Custom Notification
+on: [push]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Message
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          message: |
+            📦 **Коммит в `${{ github.repository }}` (${{ github.ref_name }})**
+
+            ${{ github.event.head_commit.message }}
+
+            `${{ github.event.head_commit.id }}` — ${{ github.actor }}
