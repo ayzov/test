@@ -5,6 +5,11 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      # Этот шаг обрезает длинный ID коммита до 7 символов
+      - name: Get short SHA
+        id: vars
+        run: echo "sha_short=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
       - name: Send Message
         uses: appleboy/discord-action@master
         with:
@@ -15,4 +20,4 @@ jobs:
 
             ${{ github.event.head_commit.message }}
 
-            `${{ github.event.head_commit.id }}` — ${{ github.actor }}
+            `${{ steps.vars.outputs.sha_short }}` — ${{ github.actor }}
